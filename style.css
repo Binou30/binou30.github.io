@@ -340,21 +340,21 @@ body {
         grid-area: greeting;
         justify-self: center;
         align-self: center;
-        width: min(100%, 42rem);
+        width: auto;
         margin: 0;
         font-size: clamp(1rem, 4vw, 1.5rem);
         line-height: 1;
         text-align: center;
-        white-space: normal;
-        overflow-wrap: anywhere;
+        white-space: nowrap;
         transform: none;
     }
 
-    .salut { display: inline; }
+    .salut { display: inline-block; }
 
     .typewritter-Binou30 {
+        display: inline-block;
         max-width: 100%;
-        vertical-align: -0.30em;
+        vertical-align: bottom;
         border-right-width: clamp(0.125rem, 0.5vw, 0.1875rem);
     }
 
