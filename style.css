@@ -171,6 +171,7 @@
 .salut {
     display: inline-block;
     color: #afaaa7;
+    vertical-align: bottom;
 }
 
 .typewritter-Binou30 {
@@ -349,7 +350,7 @@ body {
         transform: none;
     }
 
-    .salut { display: inline-block; }
+    .salut { display: inline; vertical-align: baseline; }
 
     .typewritter-Binou30 {
         display: inline-block;
