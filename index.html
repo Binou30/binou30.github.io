@@ -4,6 +4,7 @@
         <title>Le Portfolio de Binou30</title>
         <link rel="icon" href="static/favicon.png">
         <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="projets.css">
         <script src="script.js" defer></script>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,12 +26,12 @@
             </span>
         </button>
         <nav id="navigation-principale" class="navigation-principale" aria-label="Navigation principale">
-            <button class="button-mes-projets" type="button">Mes projets</button>
-            <p class="point-entre-projets-langages">-·-</p>
-            <button class="button-langages" type="button">Langages</button>
             <button class="button-à-propos" type="button">À propos</button>
-            <p class="point-entre-à-propos-liens">-·-</p>
-            <button class="button-liens" type="button">Liens diverses</button>
+            <p class="point-entre-à-propos-code">-·-</p>
+            <button class="button-code" type="button">Code</button>
+            <button class="button-lego" type="button">LEGO</button>
+            <p class="point-entre-lego-liens">-·-</p>
+            <button class="button-liens" type="button">Liens</button>
         </nav>
         <img class="logo" src="static/favicon.png" alt="Logo central">
         <div class="salut-binou30">
@@ -38,5 +39,116 @@
             <span class="typewritter-Binou30"><b>Binou30!</b></span>
         </div>
         <hr class="bottom-binou30">
+        <main class="contenu">
+            <section id="a-propos" class="section-portfolio section-simple" aria-labelledby="titre-a-propos">
+                <!-- Modifie le texte de présentation dans les paragraphes ci-dessous. -->
+                <h2 id="titre-a-propos">À propos</h2>
+                <div class="bloc-a-propos">
+                    <p>Mets ta description ici.</p>
+                    <p>Mets une deuxième partie de ta description ici.</p>
+                </div>
+            </section>
+
+            <section id="code" class="section-portfolio" aria-labelledby="titre-code">
+                <!-- Modifie le titre et le texte d'introduction directement ici. -->
+                <h2 id="titre-code">Code</h2>
+                <p class="introduction-section">C'est ici que je référence mes projets de code que j'ai réalisé. Le première partie concerne les projets de site Internet qui sont actuellement en ligne et le deuxième concerne des jeux vidéo soit publiés directement soit en cours de développement.</p>
+
+                <div id="sites-web" class="sous-section" aria-labelledby="titre-sites-web">
+                    <h3 id="titre-sites-web">Sites web</h3>
+                    <div class="grille-projets">
+                        <!-- Pour ajouter une carte, copie un bloc article class="carte-projet" et modifie son contenu. -->
+                        <article class="carte-projet">
+                            <!-- Place ton image dans static/, puis remplace cette zone par un img.photo-projet. -->
+                            <div class="zone-photo-projet" aria-label="Emplacement pour une image de site web">
+                                <span>Ajoute une image ici</span>
+                            </div>
+                            <h4>Mets le titre ici.</h4>
+                            <p>Mets ta description ici.</p>
+                            <div class="tags-projet">
+                                <!-- Copie un span pour ajouter un tag, puis change son texte. -->
+                                <span class="tag-projet">HTML</span><span class="tag-projet">CSS</span><span class="tag-projet">JavaScript</span>
+                            </div>
+                            <!-- Remplace l'URL et le texte pour ajouter le lien du projet, d'un MOOC, etc. -->
+                            <a class="lien-projet" href="https://exemple.com" target="_blank" rel="noopener noreferrer">Lien associé ↗</a>
+                        </article>
+                        <article class="carte-projet carte-placeholder">
+                            <div class="zone-photo-projet" aria-label="Emplacement pour une image de site web">
+                                <span>Ajoute une image ici</span>
+                            </div>
+                            <h4>Mets le titre ici.</h4>
+                            <p>Mets ta description ici.</p>
+                            <div class="tags-projet"><span class="tag-projet">En cours</span></div>
+                            <a class="lien-projet" href="https://exemple.com" target="_blank" rel="noopener noreferrer">Lien associé ↗</a>
+                        </article>
+                    </div>
+                </div>
+
+                <div id="jeux-video" class="sous-section" aria-labelledby="titre-jeux-video">
+                    <h3 id="titre-jeux-video">Jeux vidéo</h3>
+                    <div class="grille-projets">
+                        <article class="carte-projet">
+                            <div class="zone-photo-projet" aria-label="Emplacement pour une image de jeu vidéo">
+                                <span>Ajoute une image ici</span>
+                            </div>
+                            <h4>Mets le titre ici.</h4>
+                            <p>Mets ta description ici.</p>
+                            <div class="tags-projet"><span class="tag-projet">Scratch</span></div>
+                            <a class="lien-projet" href="https://exemple.com" target="_blank" rel="noopener noreferrer">Lien associé ↗</a>
+                        </article>
+                        <article class="carte-projet carte-placeholder">
+                            <div class="zone-photo-projet" aria-label="Emplacement pour une image de jeu vidéo">
+                                <span>Ajoute une image ici</span>
+                            </div>
+                            <h4>Mets le titre ici.</h4>
+                            <p>Mets ta description ici.</p>
+                            <div class="tags-projet"><span class="tag-projet">Prototype</span></div>
+                            <a class="lien-projet" href="https://exemple.com" target="_blank" rel="noopener noreferrer">Lien associé ↗</a>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <section id="lego" class="section-portfolio" aria-labelledby="titre-lego">
+                <!-- Modifie le texte d'introduction de la section LEGO ici. -->
+                <h2 id="titre-lego">LEGO</h2>
+                <p class="introduction-section">Mets ta description ici.</p>
+                <div class="grille-projets">
+                    <article class="carte-projet">
+                        <!-- Place ton image dans static/, puis remplace cette zone par :
+                             <img class="photo-lego" src="static/nom-de-ta-photo.jpg" alt="Description de ta construction"> -->
+                        <div class="zone-photo-lego" aria-label="Emplacement pour une photo LEGO">
+                            <span>Ajoute ta photo ici</span>
+                        </div>
+                        <h4>Mets le titre ici.</h4>
+                        <p>Mets ta description ici.</p>
+                        <div class="tags-projet"><span class="tag-projet">Créatif</span><span class="tag-projet">Modélisme</span></div>
+                        <a class="lien-projet" href="https://exemple.com" target="_blank" rel="noopener noreferrer">Lien associé ↗</a>
+                    </article>
+                    <article class="carte-projet carte-placeholder">
+                        <!-- Même principe pour une deuxième construction. -->
+                        <div class="zone-photo-lego" aria-label="Emplacement pour une photo LEGO">
+                            <span>Ajoute ta photo ici</span>
+                        </div>
+                        <h4>Mets le titre ici.</h4>
+                        <p>Mets ta description ici.</p>
+                        <div class="tags-projet"><span class="tag-projet">Bientôt</span></div>
+                        <a class="lien-projet" href="https://exemple.com" target="_blank" rel="noopener noreferrer">Lien associé ↗</a>
+                    </article>
+                </div>
+            </section>
+
+            <section id="liens" class="section-portfolio section-simple" aria-labelledby="titre-liens">
+                <!-- Modifie le texte d'introduction de la section Liens ici. -->
+                <h2 id="titre-liens">Liens</h2>
+                <p class="introduction-section">Mets ta description ici.</p>
+                <div class="grille-liens">
+                    <!-- Pour ajouter une case, copie une ligne a.carte-lien et change le href et le nom. -->
+                    <a class="carte-lien" href="https://exemple.com" target="_blank" rel="noopener noreferrer"><span>Nom du lien</span><span aria-hidden="true">↗</span></a>
+                    <a class="carte-lien" href="https://exemple.com" target="_blank" rel="noopener noreferrer"><span>Nom du lien</span><span aria-hidden="true">↗</span></a>
+                </div>
+            </section>
+
+        </main>
     </body>
 </html>

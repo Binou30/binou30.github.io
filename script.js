@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    const boutonMesProjets = document.querySelector(".button-mes-projets");
-    const boutonLangages = document.querySelector(".button-langages");
+    const boutonCode = document.querySelector(".button-code");
+    const boutonLego = document.querySelector(".button-lego");
     const boutonAPropos = document.querySelector(".button-à-propos");
     const boutonLiens = document.querySelector(".button-liens");
     const logo = document.querySelector(".logo");
@@ -23,8 +23,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     [
-        boutonMesProjets,
-        boutonLangages,
+        boutonCode,
+        boutonLego,
         boutonAPropos,
         boutonLiens,
         logo
@@ -37,13 +37,48 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
-    const mobileQuery = window.matchMedia("(max-width: 26.25rem)");
+    const mobileQuery = window.matchMedia("(max-width: 56.25rem)");
 
     const closeMenu = () => {
         document.body.classList.remove("menu-ouvert");
         burger.setAttribute("aria-expanded", "false");
         burger.setAttribute("aria-label", "Ouvrir le menu");
     };
+
+    const scrollToSection = (id) => {
+        const section = document.getElementById(id);
+        if (!section) return;
+
+        const sectionTop = section.getBoundingClientRect().top + window.scrollY;
+
+        closeMenu();
+        const blurHeight = parseFloat(
+            window.getComputedStyle(document.body, "::before").height
+        ) || 0;
+
+        window.scrollTo({
+            top: Math.max(0, sectionTop - blurHeight - 16),
+            behavior: "smooth"
+        });
+    };
+
+    logo?.addEventListener("click", () => {
+        closeMenu();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    const destinations = [
+        [boutonCode, "code"],
+        [boutonLego, "lego"],
+        [boutonAPropos, "a-propos"],
+        [boutonLiens, "liens"]
+    ];
+
+    destinations.forEach(([bouton, id]) => {
+        bouton?.addEventListener("click", () => {
+            scrollToSection(id);
+        });
+    });
 
     burger.addEventListener("click", () => {
         const menuOuvert = document.body.classList.toggle("menu-ouvert");
@@ -53,6 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
             "aria-label",
             menuOuvert ? "Fermer le menu" : "Ouvrir le menu"
         );
+
     });
 
     document.addEventListener("keydown", (event) => {
