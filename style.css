@@ -304,8 +304,12 @@ body::before {
         --mobile-logo-size: clamp(4rem, 16vw, 5.25rem);
         --mobile-logo-half-size: clamp(2rem, 8vw, 2.625rem);
         --mobile-band-height: calc(var(--mobile-logo-size) + 1rem);
-        --mobile-button-width: clamp(5rem, 20vw, 9rem);
-        --mobile-button-gap: clamp(0.6rem, 1vw, 0.75rem);
+        --mobile-button-gap: clamp(0.2rem, 1vw, 0.75rem);
+        --mobile-button-width: clamp(
+            2.25rem,
+            calc((100vw - var(--mobile-logo-size) - var(--mobile-cross-size) - (5 * var(--mobile-button-gap)) - 0.5rem) / 4),
+            9rem
+        );
         --mobile-cross-size: 3rem;
         --mobile-row-width: calc(
             var(--mobile-button-width) + var(--mobile-button-width) + var(--mobile-logo-size) +
@@ -506,7 +510,7 @@ body::before {
     .menu-burger {
         position: fixed;
         z-index: 13;
-        top: calc((max(1rem, env(safe-area-inset-top)) + var(--mobile-band-height) - 3rem) / 2 - 0.2rem);
+        top: calc((max(1rem, env(safe-area-inset-top)) + 4rem - 3rem) / 2 - 0.2rem);
         right: max(1rem, env(safe-area-inset-right));
         display: inline-flex;
         align-items: center;
@@ -590,8 +594,12 @@ body::before {
         width: var(--mobile-button-width);
         height: 2.35rem;
         padding: 0.25rem 0.1rem;
-        font-size: clamp(0.5rem, 2vw, 0.7rem);
+        min-width: 0;
+        max-width: var(--mobile-button-width);
+        font-size: clamp(0.5rem, 2.2vw, 0.7rem);
         line-height: 1;
+        white-space: normal;
+        overflow-wrap: anywhere;
         transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
     }
 
@@ -617,6 +625,10 @@ body::before {
 
     body.menu-ouvert .navigation-principale .button-à-propos {
         left: var(--mobile-row-start);
+    }
+
+    body.menu-ouvert .menu-burger {
+        top: calc((max(1rem, env(safe-area-inset-top)) + var(--mobile-band-height) - 3rem) / 2 - 0.2rem);
     }
 
     body.menu-ouvert .navigation-principale .button-code {
