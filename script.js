@@ -22,49 +22,57 @@ document.addEventListener("DOMContentLoaded", () => {
     let recalibrageEnAttente = false;
     const mediaOrientation = window.matchMedia("(orientation: portrait)");
 
-    const recalculerAffichage = () => {
-        const racine = document.documentElement;
-        const largeur = window.visualViewport?.width || window.innerWidth;
-
-        racine.style.setProperty("--orientation-viewport-width", `${largeur}px`);
-
-        // Force le navigateur à refaire le layout avec les nouvelles dimensions
-        racine.style.width = `${largeur}px`;
-        void racine.offsetHeight;
-        racine.style.width = "";
-        void racine.offsetHeight;
-
-        actualiserFlouLigne();
-    };
-
     const recalibrerOrientation = () => {
         if (recalibrageEnAttente) return;
 
         recalibrageEnAttente = true;
         requestAnimationFrame(() => {
             requestAnimationFrame(() => {
-                recalculerAffichage();
+                document.documentElement.style.setProperty(
+                    "--orientation-viewport-width",
+                    `${window.innerWidth}px`
+                );
+
+                actualiserFlouLigne();
                 recalibrageEnAttente = false;
             });
         });
-
-        // iOS met à jour ses dimensions avec un léger retard après la rotation
-        setTimeout(recalculerAffichage, 150);
-        setTimeout(recalculerAffichage, 400);
     };
 
-    const fermerMenuRotation = () => {
+    // iOS ne réévalue pas les media queries après une rotation tant que le
+    // viewport n'a pas "bougé" : on le secoue via la balise meta viewport.
+    const secouerViewport = () => {
+        const meta = document.querySelector('meta[name="viewport"]');
+        if (!meta) return;
+
+        const contenuOriginal = meta.getAttribute("content");
+
+        meta.setAttribute(
+            "content",
+            "width=device-width, initial-scale=1, maximum-scale=1"
+        );
+
+        requestAnimationFrame(() => {
+            meta.setAttribute("content", contenuOriginal);
+            recalibrerOrientation();
+        });
+    };
+
+    const gererRotation = () => {
         document.body.classList.remove("menu-ouvert");
+
         const burgerRotation = document.querySelector(".menu-burger");
         if (burgerRotation) {
             burgerRotation.setAttribute("aria-expanded", "false");
             burgerRotation.setAttribute("aria-label", "Ouvrir le menu");
         }
-    };
 
-    const gererRotation = () => {
-        fermerMenuRotation();
         recalibrerOrientation();
+        secouerViewport();
+
+        // iOS met à jour ses dimensions avec un léger retard après la rotation
+        setTimeout(secouerViewport, 150);
+        setTimeout(secouerViewport, 400);
     };
 
     window.addEventListener("orientationchange", gererRotation);
@@ -77,8 +85,6 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
         mediaOrientation.addListener(gererRotation);
     }
-
-    recalculerAffichage();
 
     function animationTap(element) {
         if (!element) return;
