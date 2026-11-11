@@ -7,6 +7,35 @@ document.addEventListener("DOMContentLoaded", () => {
     const logo = document.querySelector(".logo");
     const ligneBinou30 = document.querySelector(".bottom-binou30");
 
+    let recalibrageEnAttente = false;
+    const mediaOrientation = window.matchMedia("(orientation: portrait)");
+    const recalibrerOrientation = () => {
+        if (recalibrageEnAttente) return;
+
+        recalibrageEnAttente = true;
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                document.documentElement.style.setProperty(
+                    "--orientation-viewport-width",
+                    `${window.innerWidth}px`
+                );
+
+                recalibrageEnAttente = false;
+            });
+        });
+    };
+
+    window.addEventListener("orientationchange", recalibrerOrientation);
+    window.addEventListener("resize", recalibrerOrientation);
+    window.visualViewport?.addEventListener("resize", recalibrerOrientation);
+    screen.orientation?.addEventListener("change", recalibrerOrientation);
+
+    if (mediaOrientation.addEventListener) {
+        mediaOrientation.addEventListener("change", recalibrerOrientation);
+    } else {
+        mediaOrientation.addListener(recalibrerOrientation);
+    }
+
     const actualiserFlouLigne = () => {
         if (!ligneBinou30) return;
 
@@ -54,7 +83,9 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
-    const mobileQuery = window.matchMedia("(max-width: 56.25rem)");
+    const mobileQuery = window.matchMedia(
+        "(max-width: 56.25rem), (min-width: 56.26rem) and (max-width: 75rem) and (orientation: portrait)"
+    );
 
     const closeMenu = () => {
         document.body.classList.remove("menu-ouvert");
