@@ -7,35 +7,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const logo = document.querySelector(".logo");
     const ligneBinou30 = document.querySelector(".bottom-binou30");
 
-    let recalibrageEnAttente = false;
-    const mediaOrientation = window.matchMedia("(orientation: portrait)");
-    const recalibrerOrientation = () => {
-        if (recalibrageEnAttente) return;
-
-        recalibrageEnAttente = true;
-        requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-                document.documentElement.style.setProperty(
-                    "--orientation-viewport-width",
-                    `${window.innerWidth}px`
-                );
-
-                recalibrageEnAttente = false;
-            });
-        });
-    };
-
-    window.addEventListener("orientationchange", recalibrerOrientation);
-    window.addEventListener("resize", recalibrerOrientation);
-    window.visualViewport?.addEventListener("resize", recalibrerOrientation);
-    screen.orientation?.addEventListener("change", recalibrerOrientation);
-
-    if (mediaOrientation.addEventListener) {
-        mediaOrientation.addEventListener("change", recalibrerOrientation);
-    } else {
-        mediaOrientation.addListener(recalibrerOrientation);
-    }
-
     const actualiserFlouLigne = () => {
         if (!ligneBinou30) return;
 
@@ -47,6 +18,67 @@ document.addEventListener("DOMContentLoaded", () => {
 
         ligneBinou30.classList.toggle("ligne-sous-flou", sousLeFlou);
     };
+
+    let recalibrageEnAttente = false;
+    const mediaOrientation = window.matchMedia("(orientation: portrait)");
+
+    const recalculerAffichage = () => {
+        const racine = document.documentElement;
+        const largeur = window.visualViewport?.width || window.innerWidth;
+
+        racine.style.setProperty("--orientation-viewport-width", `${largeur}px`);
+
+        // Force le navigateur à refaire le layout avec les nouvelles dimensions
+        racine.style.width = `${largeur}px`;
+        void racine.offsetHeight;
+        racine.style.width = "";
+        void racine.offsetHeight;
+
+        actualiserFlouLigne();
+    };
+
+    const recalibrerOrientation = () => {
+        if (recalibrageEnAttente) return;
+
+        recalibrageEnAttente = true;
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                recalculerAffichage();
+                recalibrageEnAttente = false;
+            });
+        });
+
+        // iOS met à jour ses dimensions avec un léger retard après la rotation
+        setTimeout(recalculerAffichage, 150);
+        setTimeout(recalculerAffichage, 400);
+    };
+
+    const fermerMenuRotation = () => {
+        document.body.classList.remove("menu-ouvert");
+        const burgerRotation = document.querySelector(".menu-burger");
+        if (burgerRotation) {
+            burgerRotation.setAttribute("aria-expanded", "false");
+            burgerRotation.setAttribute("aria-label", "Ouvrir le menu");
+        }
+    };
+
+    const gererRotation = () => {
+        fermerMenuRotation();
+        recalibrerOrientation();
+    };
+
+    window.addEventListener("orientationchange", gererRotation);
+    window.addEventListener("resize", recalibrerOrientation);
+    window.visualViewport?.addEventListener("resize", recalibrerOrientation);
+    screen.orientation?.addEventListener("change", gererRotation);
+
+    if (mediaOrientation.addEventListener) {
+        mediaOrientation.addEventListener("change", gererRotation);
+    } else {
+        mediaOrientation.addListener(gererRotation);
+    }
+
+    recalculerAffichage();
 
     function animationTap(element) {
         if (!element) return;
