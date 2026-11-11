@@ -21,7 +21,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let recalibrageEnAttente = false;
     const mediaOrientation = window.matchMedia("(orientation: portrait)");
-
     const recalibrerOrientation = () => {
         if (recalibrageEnAttente) return;
 
@@ -39,81 +38,15 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
 
-    // Contenu d'origine de la meta viewport, mémorisé une seule fois
-    const metaViewport = document.querySelector('meta[name="viewport"]');
-    const contenuMetaOriginal = metaViewport?.getAttribute("content") ?? null;
-
-    // Force le navigateur à réévaluer viewport et media queries
-    // (Safari : meta viewport / Chrome et autres : micro-défilement invisible)
-    const secouerViewport = () => {
-        if (metaViewport && contenuMetaOriginal !== null) {
-            metaViewport.setAttribute(
-                "content",
-                "width=device-width, initial-scale=1, maximum-scale=1"
-            );
-        }
-
-        const y = window.scrollY;
-        window.scrollTo(window.scrollX, y + 1);
-        window.scrollTo(window.scrollX, y);
-
-        requestAnimationFrame(() => {
-            if (metaViewport && contenuMetaOriginal !== null) {
-                metaViewport.setAttribute("content", contenuMetaOriginal);
-            }
-            recalibrerOrientation();
-        });
-    };
-
-    // Surveille les dimensions pendant 1 s après une rotation
-    // (chaque navigateur met à jour les siennes à un moment différent)
-    let idSurveillance = 0;
-    const stabiliserApresRotation = () => {
-        const id = ++idSurveillance;
-        const debut = performance.now();
-        let derniereSignature = "";
-
-        const verifier = () => {
-            if (id !== idSurveillance) return;
-
-            const signature = `${window.innerWidth}x${window.innerHeight}`;
-            if (signature !== derniereSignature) {
-                derniereSignature = signature;
-                secouerViewport();
-            }
-
-            if (performance.now() - debut < 1000) {
-                requestAnimationFrame(verifier);
-            } else {
-                secouerViewport();
-            }
-        };
-
-        requestAnimationFrame(verifier);
-    };
-
-    const gererRotation = () => {
-        document.body.classList.remove("menu-ouvert");
-
-        const burgerRotation = document.querySelector(".menu-burger");
-        if (burgerRotation) {
-            burgerRotation.setAttribute("aria-expanded", "false");
-            burgerRotation.setAttribute("aria-label", "Ouvrir le menu");
-        }
-
-        recalibrerOrientation();
-        stabiliserApresRotation();
-    };
-
-    window.addEventListener("orientationchange", gererRotation);
+    window.addEventListener("orientationchange", recalibrerOrientation);
     window.addEventListener("resize", recalibrerOrientation);
     window.visualViewport?.addEventListener("resize", recalibrerOrientation);
-    screen.orientation?.addEventListener("change", gererRotation);
+    screen.orientation?.addEventListener("change", recalibrerOrientation);
 
     if (mediaOrientation.addEventListener) {
-        mediaOrientation.addEventListener("change", gererRotation);
+        mediaOrientation.addEventListener("change", recalibrerOrientation);
     } else {
-        mediaOrientation.addListener(gererRotation);
+        mediaOrientation.addListener(recalibrerOrientation);
     }
 
     function animationTap(element) {
