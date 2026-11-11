@@ -718,6 +718,18 @@ body::before {
     }
 }
 
+@media (min-width: 56.26rem) and (max-width: 75rem) and (orientation: portrait) {
+    :root {
+        --logo-size: clamp(6rem, 16vw, 10rem);
+        --logo-half-size: clamp(3rem, 8vw, 5rem);
+        --logo-center: calc(var(--logo-top) + var(--logo-half-size));
+        --navbar-height: clamp(3rem, 7vw, 5rem);
+        --button-font-size: clamp(0.65rem, 1.7vw, 0.9rem);
+        --button-padding-y: clamp(0.45rem, 1.2vh, 0.75rem);
+        --button-padding-x: clamp(0.75rem, 1.8vw, 1.5rem);
+    }
+}
+
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
         animation-duration: 0.01ms !important;
