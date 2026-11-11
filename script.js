@@ -39,23 +39,57 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
 
-    // iOS ne réévalue pas les media queries après une rotation tant que le
-    // viewport n'a pas "bougé" : on le secoue via la balise meta viewport.
+    // Contenu d'origine de la meta viewport, mémorisé une seule fois
+    const metaViewport = document.querySelector('meta[name="viewport"]');
+    const contenuMetaOriginal = metaViewport?.getAttribute("content") ?? null;
+
+    // Force le navigateur à réévaluer viewport et media queries
+    // (Safari : meta viewport / Chrome et autres : micro-défilement invisible)
     const secouerViewport = () => {
-        const meta = document.querySelector('meta[name="viewport"]');
-        if (!meta) return;
+        if (metaViewport && contenuMetaOriginal !== null) {
+            metaViewport.setAttribute(
+                "content",
+                "width=device-width, initial-scale=1, maximum-scale=1"
+            );
+        }
 
-        const contenuOriginal = meta.getAttribute("content");
-
-        meta.setAttribute(
-            "content",
-            "width=device-width, initial-scale=1, maximum-scale=1"
-        );
+        const y = window.scrollY;
+        window.scrollTo(window.scrollX, y + 1);
+        window.scrollTo(window.scrollX, y);
 
         requestAnimationFrame(() => {
-            meta.setAttribute("content", contenuOriginal);
+            if (metaViewport && contenuMetaOriginal !== null) {
+                metaViewport.setAttribute("content", contenuMetaOriginal);
+            }
             recalibrerOrientation();
         });
+    };
+
+    // Surveille les dimensions pendant 1 s après une rotation
+    // (chaque navigateur met à jour les siennes à un moment différent)
+    let idSurveillance = 0;
+    const stabiliserApresRotation = () => {
+        const id = ++idSurveillance;
+        const debut = performance.now();
+        let derniereSignature = "";
+
+        const verifier = () => {
+            if (id !== idSurveillance) return;
+
+            const signature = `${window.innerWidth}x${window.innerHeight}`;
+            if (signature !== derniereSignature) {
+                derniereSignature = signature;
+                secouerViewport();
+            }
+
+            if (performance.now() - debut < 1000) {
+                requestAnimationFrame(verifier);
+            } else {
+                secouerViewport();
+            }
+        };
+
+        requestAnimationFrame(verifier);
     };
 
     const gererRotation = () => {
@@ -68,11 +102,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         recalibrerOrientation();
-        secouerViewport();
-
-        // iOS met à jour ses dimensions avec un léger retard après la rotation
-        setTimeout(secouerViewport, 150);
-        setTimeout(secouerViewport, 400);
+        stabiliserApresRotation();
     };
 
     window.addEventListener("orientationchange", gererRotation);
