@@ -7,6 +7,25 @@ document.addEventListener("DOMContentLoaded", () => {
     const logo = document.querySelector(".logo");
     const ligneBinou30 = document.querySelector(".bottom-binou30");
 
+    let recalibrageEnAttente = false;
+    const recalibrerOrientation = () => {
+        if (recalibrageEnAttente) return;
+
+        recalibrageEnAttente = true;
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                document.documentElement.style.setProperty(
+                    "--orientation-viewport-width",
+                    `${window.innerWidth}px`
+                );
+                recalibrageEnAttente = false;
+            });
+        });
+    };
+
+    window.addEventListener("orientationchange", recalibrerOrientation);
+    window.addEventListener("resize", recalibrerOrientation);
+
     const actualiserFlouLigne = () => {
         if (!ligneBinou30) return;
 
