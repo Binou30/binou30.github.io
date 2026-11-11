@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const ligneBinou30 = document.querySelector(".bottom-binou30");
 
     let recalibrageEnAttente = false;
+    const mediaOrientation = window.matchMedia("(orientation: portrait)");
     const recalibrerOrientation = () => {
         if (recalibrageEnAttente) return;
 
@@ -19,14 +20,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     `${window.innerWidth}px`
                 );
 
-                document.querySelectorAll('link[rel="stylesheet"]').forEach((feuille) => {
-                    const mediaOriginal = feuille.media || "all";
-                    feuille.media = "not all";
-                    requestAnimationFrame(() => {
-                        feuille.media = mediaOriginal;
-                    });
-                });
-
                 recalibrageEnAttente = false;
             });
         });
@@ -35,6 +28,13 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener("orientationchange", recalibrerOrientation);
     window.addEventListener("resize", recalibrerOrientation);
     window.visualViewport?.addEventListener("resize", recalibrerOrientation);
+    screen.orientation?.addEventListener("change", recalibrerOrientation);
+
+    if (mediaOrientation.addEventListener) {
+        mediaOrientation.addEventListener("change", recalibrerOrientation);
+    } else {
+        mediaOrientation.addListener(recalibrerOrientation);
+    }
 
     const actualiserFlouLigne = () => {
         if (!ligneBinou30) return;
