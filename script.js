@@ -19,84 +19,6 @@ document.addEventListener("DOMContentLoaded", () => {
         ligneBinou30.classList.toggle("ligne-sous-flou", sousLeFlou);
     };
 
-    let recalibrageEnAttente = false;
-    const mediaOrientation = window.matchMedia("(orientation: portrait)");
-    const recalibrerOrientation = () => {
-        if (recalibrageEnAttente) return;
-
-        recalibrageEnAttente = true;
-        requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-                document.documentElement.style.setProperty(
-                    "--orientation-viewport-width",
-                    `${window.innerWidth}px`
-                );
-
-                actualiserFlouLigne();
-                recalibrageEnAttente = false;
-            });
-        });
-    };
-
-    // Orientation réelle de l'appareil (fiable même quand le viewport est périmé)
-    const orientationReelle = () => {
-        if (typeof window.orientation === "number") {
-            return Math.abs(window.orientation) === 90 ? "landscape" : "portrait";
-        }
-        const type = screen.orientation?.type;
-        if (type) {
-            return type.startsWith("landscape") ? "landscape" : "portrait";
-        }
-        return null;
-    };
-
-    const viewportCoherent = () => {
-        const reelle = orientationReelle();
-        if (!reelle) return true;
-        const viewportEnPaysage = window.innerWidth > window.innerHeight;
-        return viewportEnPaysage === (reelle === "landscape");
-    };
-
-    // Contournement du bug de Chrome iOS/iPadOS : si le viewport n'a pas
-    // été mis à jour après la rotation, on recharge (une seule fois).
-    let minuterieRotation = null;
-    const verifierApresRotation = () => {
-        clearTimeout(minuterieRotation);
-        minuterieRotation = setTimeout(() => {
-            if (viewportCoherent()) return;
-
-            const dernier = Number(sessionStorage.getItem("dernier-reload-rotation")) || 0;
-            if (Date.now() - dernier < 3000) return;
-
-            sessionStorage.setItem("dernier-reload-rotation", String(Date.now()));
-            location.reload();
-        }, 700);
-    };
-
-    const gererRotation = () => {
-        document.body.classList.remove("menu-ouvert");
-
-        const burgerRotation = document.querySelector(".menu-burger");
-        if (burgerRotation) {
-            burgerRotation.setAttribute("aria-expanded", "false");
-            burgerRotation.setAttribute("aria-label", "Ouvrir le menu");
-        }
-
-        recalibrerOrientation();
-        verifierApresRotation();
-    };
-
-    window.addEventListener("orientationchange", gererRotation);
-    window.addEventListener("resize", recalibrerOrientation);
-    window.visualViewport?.addEventListener("resize", recalibrerOrientation);
-    screen.orientation?.addEventListener("change", gererRotation);
-
-    if (mediaOrientation.addEventListener) {
-        mediaOrientation.addEventListener("change", gererRotation);
-    } else {
-        mediaOrientation.addListener(gererRotation);
-    }
-
     function animationTap(element) {
         if (!element) return;
 
@@ -132,9 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
-    const mobileQuery = window.matchMedia(
-        "(max-width: 56.25rem), (min-width: 56.26rem) and (max-width: 75rem) and (orientation: portrait)"
-    );
+    const mobileQuery = window.matchMedia("(max-width: 56.25rem)");
 
     const closeMenu = () => {
         document.body.classList.remove("menu-ouvert");

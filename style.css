@@ -326,7 +326,7 @@ body::before {
     display: none;
 }
 
-@media (max-width: 56.25rem), (min-width: 56.26rem) and (max-width: 75rem) and (orientation: portrait) {
+@media (max-width: 56.25rem) {
     :root {
         --blur-bande: 14px;
     }
@@ -691,42 +691,6 @@ body::before {
     body.menu-ouvert .menu-burger {
         right: auto;
         left: calc(var(--mobile-row-start) + var(--mobile-button-width) + var(--mobile-button-width) + var(--mobile-logo-size) + var(--mobile-button-width) + var(--mobile-button-width) + var(--mobile-button-gap) + var(--mobile-button-gap) + var(--mobile-button-gap) + var(--mobile-button-gap) + var(--mobile-button-gap));
-    }
-}
-
-@media (max-width: 56.25rem) and (orientation: landscape) {
-    body {
-        --mobile-logo-size: clamp(3rem, 16vh, 4.5rem);
-        --mobile-logo-half-size: clamp(1.5rem, 8vh, 2.25rem);
-        --mobile-band-height: calc(var(--mobile-logo-size) + 0.75rem);
-        --mobile-cross-size: 2.5rem;
-        padding-top: calc(max(0.75rem, env(safe-area-inset-top)) + 3rem);
-    }
-
-    body::before {
-        height: calc(max(0.75rem, env(safe-area-inset-top)) + 3rem);
-    }
-
-    .menu-burger {
-        width: 2.5rem;
-        height: 2.5rem;
-        top: calc((max(0.75rem, env(safe-area-inset-top)) + 3rem - 2.5rem) / 2);
-    }
-
-    body.menu-ouvert .menu-burger {
-        top: calc((max(0.75rem, env(safe-area-inset-top)) + var(--mobile-band-height) - 2.5rem) / 2);
-    }
-}
-
-@media (min-width: 56.26rem) and (max-width: 75rem) and (orientation: portrait) {
-    :root {
-        --logo-size: clamp(6rem, 16vw, 10rem);
-        --logo-half-size: clamp(3rem, 8vw, 5rem);
-        --logo-center: calc(var(--logo-top) + var(--logo-half-size));
-        --navbar-height: clamp(3rem, 7vw, 5rem);
-        --button-font-size: clamp(0.65rem, 1.7vw, 0.9rem);
-        --button-padding-y: clamp(0.45rem, 1.2vh, 0.75rem);
-        --button-padding-x: clamp(0.75rem, 1.8vw, 1.5rem);
     }
 }
 
