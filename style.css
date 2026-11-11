@@ -12,6 +12,7 @@
     --greeting-font-size: clamp(1.25rem, 2vw, 2rem);
     --line-height: clamp(0.125rem, 0.223vh, 0.1875rem);
     --border-size: clamp(0.5px, 0.077vw, 1.5px);
+    --blur-bande: 11px;
 }
 
 @media (max-width: 68.75rem) {
@@ -78,6 +79,8 @@ html {
     border-radius: clamp(0.75rem, 1.161vw, 1.25rem);
     top: var(--logo-center);
     z-index: 10;
+    -webkit-backdrop-filter: blur(var(--blur-bande));
+    backdrop-filter: blur(var(--blur-bande));
     transition: height 0.4s ease, top 0.4s ease, border-radius 0.4s ease;
 }
 
@@ -145,11 +148,12 @@ html {
     height: var(--navbar-height);
     font-family: monospace;
     font-size: var(--separator-font-size);
-    color: #afaaa7;
+    color: #D8D3D0;
     top: calc(var(--logo-center) - 0.2vh);
     transform: translate(-50%, -50%);
     line-height: 1;
     margin: 0;
+    z-index: 11;
     transition: font-size 0.4s ease, height 0.4s ease, top 0.4s ease;
 }
 
@@ -229,9 +233,18 @@ html {
     height: var(--line-height);
     border: none;
     transform-origin: center;
+    z-index: 6;
+    filter: none;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    will-change: transform;
     transform: translateX(-50%) scaleX(0);
     animation: tracerLigne 1.5s ease-in-out forwards;
     transition: top 0.4s ease;
+}
+
+.bottom-binou30.ligne-sous-flou {
+    filter: blur(var(--blur-bande));
 }
 
 @keyframes tracerLigne {
@@ -241,8 +254,7 @@ html {
 
 body {
     background: linear-gradient(to right, #23243C, #4B516B);
-    animation: fadeIn 1.2s ease-out forwards;
-    opacity: 0;
+    isolation: isolate;
     overflow-x: hidden;
 }
 
@@ -252,13 +264,33 @@ body::before {
     top: 0;
     left: 0;
     width: 100%;
-    height: calc(var(--logo-top) + var(--logo-size) + 2rem);
-    background: rgba(35, 36, 60, 0.2);
+    height: calc(var(--logo-top) + var(--logo-size) + 3rem);
+    background: rgba(35, 36, 60, 0.35);
+    -webkit-backdrop-filter: blur(var(--blur-bande)) saturate(1.2);
+    backdrop-filter: blur(var(--blur-bande)) saturate(1.2);
+    -webkit-mask-image: linear-gradient(to bottom,
+        #000 0%,
+        #000 50%,
+        rgba(0, 0, 0, 0.92) 58%,
+        rgba(0, 0, 0, 0.75) 67%,
+        rgba(0, 0, 0, 0.5) 77%,
+        rgba(0, 0, 0, 0.25) 87%,
+        rgba(0, 0, 0, 0.08) 95%,
+        transparent 100%);
+    mask-image: linear-gradient(to bottom,
+        #000 0%,
+        #000 50%,
+        rgba(0, 0, 0, 0.92) 58%,
+        rgba(0, 0, 0, 0.75) 67%,
+        rgba(0, 0, 0, 0.5) 77%,
+        rgba(0, 0, 0, 0.25) 87%,
+        rgba(0, 0, 0, 0.08) 95%,
+        transparent 100%);
     border-bottom: none;
-    backdrop-filter: blur(0.5rem);
-    -webkit-backdrop-filter: blur(0.5rem);
-    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 62%, transparent 100%);
-    mask-image: linear-gradient(to bottom, #000 0%, #000 62%, transparent 100%);
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    will-change: transform, backdrop-filter;
     content: "";
     pointer-events: none;
 }
@@ -290,16 +322,15 @@ body::before {
     100% { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes fadeIn {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
-}
-
 .menu-burger {
     display: none;
 }
 
 @media (max-width: 56.25rem) {
+    :root {
+        --blur-bande: 14px;
+    }
+
     body {
         --mobile-logo-size: clamp(4rem, 16vw, 5.25rem);
         --mobile-logo-half-size: clamp(2rem, 8vw, 2.625rem);
@@ -358,8 +389,6 @@ body::before {
     body::before {
         height: calc(max(1rem, env(safe-area-inset-top)) + 4rem);
         background: rgba(35, 36, 60, 0.2);
-        backdrop-filter: blur(0.5rem);
-        -webkit-backdrop-filter: blur(0.5rem);
     }
 
     body.menu-ouvert .navigation-principale {
@@ -374,8 +403,24 @@ body::before {
     body.menu-ouvert::before {
         height: calc(max(1rem, env(safe-area-inset-top)) + var(--mobile-band-height));
         background: rgba(35, 36, 60, 0.2);
-        -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 84%, transparent 100%);
-        mask-image: linear-gradient(to bottom, #000 0%, #000 84%, transparent 100%);
+        -webkit-mask-image: linear-gradient(to bottom,
+            #000 0%,
+            #000 50%,
+            rgba(0, 0, 0, 0.92) 58%,
+            rgba(0, 0, 0, 0.75) 67%,
+            rgba(0, 0, 0, 0.5) 77%,
+            rgba(0, 0, 0, 0.25) 87%,
+            rgba(0, 0, 0, 0.08) 95%,
+            transparent 100%);
+        mask-image: linear-gradient(to bottom,
+            #000 0%,
+            #000 50%,
+            rgba(0, 0, 0, 0.92) 58%,
+            rgba(0, 0, 0, 0.75) 67%,
+            rgba(0, 0, 0, 0.5) 77%,
+            rgba(0, 0, 0, 0.25) 87%,
+            rgba(0, 0, 0, 0.08) 95%,
+            transparent 100%);
     }
 
     .navbar-gauche,
@@ -646,6 +691,30 @@ body::before {
     body.menu-ouvert .menu-burger {
         right: auto;
         left: calc(var(--mobile-row-start) + var(--mobile-button-width) + var(--mobile-button-width) + var(--mobile-logo-size) + var(--mobile-button-width) + var(--mobile-button-width) + var(--mobile-button-gap) + var(--mobile-button-gap) + var(--mobile-button-gap) + var(--mobile-button-gap) + var(--mobile-button-gap));
+    }
+}
+
+@media (max-width: 56.25rem) and (orientation: landscape) {
+    body {
+        --mobile-logo-size: clamp(3rem, 16vh, 4.5rem);
+        --mobile-logo-half-size: clamp(1.5rem, 8vh, 2.25rem);
+        --mobile-band-height: calc(var(--mobile-logo-size) + 0.75rem);
+        --mobile-cross-size: 2.5rem;
+        padding-top: calc(max(0.75rem, env(safe-area-inset-top)) + 3rem);
+    }
+
+    body::before {
+        height: calc(max(0.75rem, env(safe-area-inset-top)) + 3rem);
+    }
+
+    .menu-burger {
+        width: 2.5rem;
+        height: 2.5rem;
+        top: calc((max(0.75rem, env(safe-area-inset-top)) + 3rem - 2.5rem) / 2);
+    }
+
+    body.menu-ouvert .menu-burger {
+        top: calc((max(0.75rem, env(safe-area-inset-top)) + var(--mobile-band-height) - 2.5rem) / 2);
     }
 }
 

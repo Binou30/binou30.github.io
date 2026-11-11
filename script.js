@@ -5,6 +5,19 @@ document.addEventListener("DOMContentLoaded", () => {
     const boutonAPropos = document.querySelector(".button-à-propos");
     const boutonLiens = document.querySelector(".button-liens");
     const logo = document.querySelector(".logo");
+    const ligneBinou30 = document.querySelector(".bottom-binou30");
+
+    const actualiserFlouLigne = () => {
+        if (!ligneBinou30) return;
+
+        const hauteurBandeau = parseFloat(
+            window.getComputedStyle(document.body, "::before").height
+        ) || 0;
+        const ligne = ligneBinou30.getBoundingClientRect();
+        const sousLeFlou = ligne.bottom > 0 && ligne.top < hauteurBandeau;
+
+        ligneBinou30.classList.toggle("ligne-sous-flou", sousLeFlou);
+    };
 
     function animationTap(element) {
         if (!element) return;
@@ -29,6 +42,10 @@ document.addEventListener("DOMContentLoaded", () => {
         boutonLiens,
         logo
     ].forEach(animationTap);
+
+    actualiserFlouLigne();
+    window.addEventListener("scroll", actualiserFlouLigne, { passive: true });
+    window.addEventListener("resize", actualiserFlouLigne);
 
     const burger = document.querySelector(".menu-burger");
     const navigation = document.querySelector(".navigation-principale");
