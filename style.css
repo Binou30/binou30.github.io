@@ -326,7 +326,7 @@ body::before {
     display: none;
 }
 
-@media (max-width: 56.25rem) {
+@media (max-width: 56.25rem), (min-width: 56.26rem) and (max-width: 75rem) and (orientation: portrait) {
     :root {
         --blur-bande: 14px;
     }

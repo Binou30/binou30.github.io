@@ -73,7 +73,9 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
-    const mobileQuery = window.matchMedia("(max-width: 56.25rem)");
+    const mobileQuery = window.matchMedia(
+        "(max-width: 56.25rem), (min-width: 56.26rem) and (max-width: 75rem) and (orientation: portrait)"
+    );
 
     const closeMenu = () => {
         document.body.classList.remove("menu-ouvert");
