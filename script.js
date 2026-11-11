@@ -35,17 +35,6 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener("orientationchange", recalibrerOrientation);
     window.addEventListener("resize", recalibrerOrientation);
     window.visualViewport?.addEventListener("resize", recalibrerOrientation);
-    screen.orientation?.addEventListener("change", recalibrerOrientation);
-
-    const recalibrerApresRotation = () => {
-        recalibrerOrientation();
-        [150, 350, 700].forEach((delai) => {
-            window.setTimeout(recalibrerOrientation, delai);
-        });
-    };
-
-    window.addEventListener("orientationchange", recalibrerApresRotation);
-    screen.orientation?.addEventListener("change", recalibrerApresRotation);
 
     const actualiserFlouLigne = () => {
         if (!ligneBinou30) return;
