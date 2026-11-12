@@ -208,6 +208,10 @@ html {
     border-color: #F5EEEA;
 }
 
+.lien-projet-sans-lien:hover {
+    border-color: transparent;
+}
+
 @media (hover: hover) and (pointer: fine) {
     .carte-projet:hover {
         background-color: rgba(92, 86, 155, 0.45);
