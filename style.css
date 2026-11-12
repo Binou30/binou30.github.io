@@ -12,7 +12,7 @@
     --greeting-font-size: clamp(1.25rem, 2vw, 2rem);
     --line-height: clamp(0.125rem, 0.223vh, 0.1875rem);
     --border-size: clamp(0.5px, 0.077vw, 1.5px);
-    --blur-bande: 11px;
+    --blur-bande: 21px;
 }
 
 @media (max-width: 68.75rem) {
@@ -254,8 +254,6 @@ html {
 
 body {
     background: linear-gradient(to right, #23243C, #4B516B);
-    animation: fadeIn 1.2s ease-out forwards;
-    opacity: 0;
     isolation: isolate;
     overflow-x: hidden;
 }
@@ -322,11 +320,6 @@ body::before {
 @keyframes contenuApparition {
     0% { opacity: 0; transform: translateY(1.671vh); }
     100% { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes fadeIn {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
 }
 
 .menu-burger {
