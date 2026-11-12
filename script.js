@@ -12,9 +12,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const mobileQuery = window.matchMedia("(max-width: 56.25rem)");
     let fermetureMenuCode;
 
+    const estTactile = () => mobileQuery.matches && (
+        window.matchMedia("(hover: none)").matches ||
+        window.matchMedia("(pointer: coarse)").matches ||
+        navigator.maxTouchPoints > 0
+    );
+
     const ouvrirMenuCode = () => {
-        const appareilTactile = !window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-        if (mobileQuery.matches && appareilTactile) return;
+        if (estTactile()) return;
 
         window.clearTimeout(fermetureMenuCode);
         navigationCode?.classList.remove("menu-code-bloque");
@@ -23,8 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const programmerFermetureMenuCode = () => {
-        const appareilTactile = !window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-        if (mobileQuery.matches && appareilTactile) return;
+        if (estTactile()) return;
 
         window.clearTimeout(fermetureMenuCode);
         fermetureMenuCode = window.setTimeout(() => {
@@ -119,7 +123,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     destinations.forEach(([bouton, id]) => {
         bouton?.addEventListener("click", () => {
-            if (bouton === boutonCode && mobileQuery.matches) {
+            if (bouton === boutonCode && estTactile()) {
                 const menuDejaOuvert = navigationCode?.classList.contains("menu-code-ouvert");
 
                 if (!menuDejaOuvert) {

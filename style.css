@@ -160,7 +160,6 @@ html {
 .point-entre-à-propos-code { left: 20.75%; }
 .point-entre-lego-liens { left: 77.5%; }
 
-/* MENU DÉROULANT CODE — bloc indépendant */
 @media (min-width: 56.26rem) {
     .navigation-code {
         position: fixed;
