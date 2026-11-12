@@ -9,17 +9,27 @@ document.addEventListener("DOMContentLoaded", () => {
     const sousSectionsCode = document.querySelectorAll("[data-section]");
     const navigationCode = document.querySelector(".navigation-code");
     const menuCode = navigationCode?.querySelector(".menu-code-sous-sections");
+    const mobileQuery = window.matchMedia("(max-width: 56.25rem)");
     let fermetureMenuCode;
 
     const ouvrirMenuCode = () => {
+        const appareilTactile = !window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+        if (mobileQuery.matches && appareilTactile) return;
+
         window.clearTimeout(fermetureMenuCode);
+        navigationCode?.classList.remove("menu-code-bloque");
         navigationCode?.classList.add("menu-code-ouvert");
+        boutonCode?.setAttribute("aria-expanded", "true");
     };
 
     const programmerFermetureMenuCode = () => {
+        const appareilTactile = !window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+        if (mobileQuery.matches && appareilTactile) return;
+
         window.clearTimeout(fermetureMenuCode);
         fermetureMenuCode = window.setTimeout(() => {
             navigationCode?.classList.remove("menu-code-ouvert");
+            boutonCode?.setAttribute("aria-expanded", "false");
         }, 180);
     };
 
@@ -70,11 +80,10 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
-    const mobileQuery = window.matchMedia("(max-width: 56.25rem)");
-
     const closeMenu = () => {
         document.body.classList.remove("menu-ouvert");
         navigationCode?.classList.remove("menu-code-ouvert");
+        boutonCode?.setAttribute("aria-expanded", "false");
         burger.setAttribute("aria-expanded", "false");
         burger.setAttribute("aria-label", "Ouvrir le menu");
     };
@@ -110,6 +119,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
     destinations.forEach(([bouton, id]) => {
         bouton?.addEventListener("click", () => {
+            if (bouton === boutonCode && mobileQuery.matches) {
+                const menuDejaOuvert = navigationCode?.classList.contains("menu-code-ouvert");
+
+                if (!menuDejaOuvert) {
+                    navigationCode?.classList.remove("menu-code-bloque");
+                    navigationCode?.classList.add("menu-code-ouvert");
+                    boutonCode.setAttribute("aria-expanded", "true");
+                    return;
+                }
+
+                navigationCode?.classList.remove("menu-code-ouvert");
+                boutonCode.setAttribute("aria-expanded", "false");
+            }
+
             scrollToSection(id);
         });
     });
@@ -117,7 +140,8 @@ document.addEventListener("DOMContentLoaded", () => {
     sousSectionsCode.forEach((lien) => {
         lien.addEventListener("click", (event) => {
             event.preventDefault();
-            navigationCode?.classList.add("menu-code-ferme");
+            navigationCode?.classList.remove("menu-code-ouvert");
+            navigationCode?.classList.add("menu-code-bloque");
             scrollToSection(lien.dataset.section);
         });
     });

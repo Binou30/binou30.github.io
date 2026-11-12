@@ -248,6 +248,12 @@ html {
         pointer-events: none !important;
         transform: translate(-50%, -0.35rem) !important;
     }
+
+    .navigation-code.menu-code-bloque .menu-code-sous-sections {
+        opacity: 0 !important;
+        pointer-events: none !important;
+        transform: translate(-50%, -0.35rem) !important;
+    }
 }
 
 .logo {
@@ -526,6 +532,12 @@ body::before {
         opacity: 1;
         pointer-events: auto;
         transform: translateY(0);
+    }
+
+    body.menu-ouvert .navigation-code.menu-code-bloque .menu-code-sous-sections {
+        opacity: 0 !important;
+        pointer-events: none !important;
+        transform: translateY(-0.25rem) !important;
     }
 
     body.menu-ouvert .menu-code-sous-sections a {
