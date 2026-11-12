@@ -254,6 +254,8 @@ html {
 
 body {
     background: linear-gradient(to right, #23243C, #4B516B);
+    animation: fadeIn 1.2s ease-out forwards;
+    opacity: 0;
     isolation: isolate;
     overflow-x: hidden;
 }
@@ -320,6 +322,11 @@ body::before {
 @keyframes contenuApparition {
     0% { opacity: 0; transform: translateY(1.671vh); }
     100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
 }
 
 .menu-burger {
@@ -702,7 +709,3 @@ body::before {
         transition-duration: 0.01ms !important;
     }
 }
-
-
-
-
