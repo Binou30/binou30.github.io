@@ -28,7 +28,15 @@
         <nav id="navigation-principale" class="navigation-principale" aria-label="Navigation principale">
             <button class="button-à-propos" type="button">À propos</button>
             <p class="point-entre-à-propos-code">-·-</p>
-            <button class="button-code" type="button">Code</button>
+            <!-- MENU DÉROULANT CODE : bloc indépendant, facile à supprimer. -->
+            <div class="navigation-code">
+                <button class="button-code" type="button" aria-haspopup="true" aria-expanded="false">Code</button>
+                <div class="menu-code-sous-sections" aria-label="Sous-sections Code">
+                    <a href="#sites-web" data-section="sites-web">Sites web</a>
+                    <a href="#jeux-video" data-section="jeux-video">Jeux vidéo</a>
+                    <a href="#autre" data-section="autre">Autre</a>
+                </div>
+            </div>
             <button class="button-lego" type="button">LEGO</button>
             <p class="point-entre-lego-liens">-·-</p>
             <button class="button-liens" type="button">Liens</button>
@@ -83,7 +91,6 @@
                         </article>
                     </div>
                 </div>
-
                 <div id="jeux-video" class="sous-section" aria-labelledby="titre-jeux-video">
                     <h3 id="titre-jeux-video">Jeux vidéo</h3>
                     <div class="grille-projets">
@@ -107,8 +114,30 @@
                         </article>
                     </div>
                 </div>
+                <div id="autre" class="sous-section" aria-labelledby="titre-autre">
+                    <h3 id="titre-autre">Autre</h3>
+                    <div class="grille-projets">
+                        <article class="carte-projet carte-placeholder">
+                            <div class="zone-photo-projet" aria-label="Emplacement pour une image d'un autre projet">
+                                <span>Ajoute une image ici</span>
+                            </div>
+                            <h4>Mets le titre ici.</h4>
+                            <p>Mets ta description ici.</p>
+                            <div class="tags-projet"><span class="tag-projet">Bientôt</span></div>
+                            <a class="lien-projet" href="https://exemple.com" target="_blank" rel="noopener noreferrer">Lien associé ↗</a>
+                        </article>
+                        <article class="carte-projet carte-placeholder">
+                            <div class="zone-photo-projet" aria-label="Emplacement pour une image d'un autre projet">
+                                <span>Ajoute une image ici</span>
+                            </div>
+                            <h4>Mets le titre ici.</h4>
+                            <p>Mets ta description ici.</p>
+                            <div class="tags-projet"><span class="tag-projet">Bientôt</span></div>
+                            <a class="lien-projet" href="https://exemple.com" target="_blank" rel="noopener noreferrer">Lien associé ↗</a>
+                        </article>
+                    </div>
+                </div>
             </section>
-
             <section id="lego" class="section-portfolio" aria-labelledby="titre-lego">
                 <!-- Modifie le texte d'introduction de la section LEGO ici. -->
                 <h2 id="titre-lego">LEGO</h2>

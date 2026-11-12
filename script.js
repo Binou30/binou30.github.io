@@ -6,6 +6,22 @@ document.addEventListener("DOMContentLoaded", () => {
     const boutonLiens = document.querySelector(".button-liens");
     const logo = document.querySelector(".logo");
     const ligneBinou30 = document.querySelector(".bottom-binou30");
+    const sousSectionsCode = document.querySelectorAll("[data-section]");
+    const navigationCode = document.querySelector(".navigation-code");
+    const menuCode = navigationCode?.querySelector(".menu-code-sous-sections");
+    let fermetureMenuCode;
+
+    const ouvrirMenuCode = () => {
+        window.clearTimeout(fermetureMenuCode);
+        navigationCode?.classList.add("menu-code-ouvert");
+    };
+
+    const programmerFermetureMenuCode = () => {
+        window.clearTimeout(fermetureMenuCode);
+        fermetureMenuCode = window.setTimeout(() => {
+            navigationCode?.classList.remove("menu-code-ouvert");
+        }, 180);
+    };
 
     const actualiserFlouLigne = () => {
         if (!ligneBinou30) return;
@@ -58,6 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const closeMenu = () => {
         document.body.classList.remove("menu-ouvert");
+        navigationCode?.classList.remove("menu-code-ouvert");
         burger.setAttribute("aria-expanded", "false");
         burger.setAttribute("aria-label", "Ouvrir le menu");
     };
@@ -97,7 +114,26 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    sousSectionsCode.forEach((lien) => {
+        lien.addEventListener("click", (event) => {
+            event.preventDefault();
+            navigationCode?.classList.add("menu-code-ferme");
+            scrollToSection(lien.dataset.section);
+        });
+    });
+
+    navigationCode?.addEventListener("pointerenter", ouvrirMenuCode);
+    navigationCode?.addEventListener("pointerleave", programmerFermetureMenuCode);
+    menuCode?.addEventListener("pointerenter", ouvrirMenuCode);
+    menuCode?.addEventListener("pointerleave", programmerFermetureMenuCode);
+
+    navigationCode?.addEventListener("mouseleave", () => {
+        navigationCode.classList.remove("menu-code-ferme");
+    });
+
     burger.addEventListener("click", () => {
+        navigationCode?.classList.remove("menu-code-ferme");
+        navigationCode?.classList.remove("menu-code-ouvert");
         const menuOuvert = document.body.classList.toggle("menu-ouvert");
 
         burger.setAttribute("aria-expanded", String(menuOuvert));
