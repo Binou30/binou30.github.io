@@ -98,6 +98,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const sectionTop = section.getBoundingClientRect().top + window.scrollY;
 
         closeMenu();
+
+        if (window.scrollY <= 32 && sectionTop <= 32) {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+            return;
+        }
+
         const blurHeight = parseFloat(
             window.getComputedStyle(document.body, "::before").height
         ) || 0;
