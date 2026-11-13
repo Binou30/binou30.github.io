@@ -91,18 +91,24 @@ document.addEventListener("DOMContentLoaded", () => {
         burger.setAttribute("aria-label", "Ouvrir le menu");
     };
 
+    let derniereSectionCible = null;
+
     const scrollToSection = (id) => {
         const section = document.getElementById(id);
         if (!section) return;
 
         const sectionTop = section.getBoundingClientRect().top + window.scrollY;
+        const estDejaLaSectionActuelle = derniereSectionCible === id && window.scrollY < 180;
 
         closeMenu();
 
-        if (window.scrollY <= 32 && sectionTop <= 32) {
+        if (estDejaLaSectionActuelle) {
             window.scrollTo({ top: 0, behavior: "smooth" });
+            derniereSectionCible = null;
             return;
         }
+
+        derniereSectionCible = id;
 
         const blurHeight = parseFloat(
             window.getComputedStyle(document.body, "::before").height
