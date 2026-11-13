@@ -12,10 +12,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const mobileQuery = window.matchMedia("(max-width: 56.25rem)");
     let fermetureMenuCode;
 
-    const estTactile = () => mobileQuery.matches && (
+    const estTactile = () => (
         window.matchMedia("(hover: none)").matches ||
-        window.matchMedia("(pointer: coarse)").matches ||
-        navigator.maxTouchPoints > 0
+        window.matchMedia("(pointer: coarse)").matches
     );
 
     const ouvrirMenuCode = () => {
@@ -186,6 +185,13 @@ document.addEventListener("DOMContentLoaded", () => {
             !navigation.contains(event.target)
         ) {
             closeMenu();
+        }
+    });
+
+    document.addEventListener("click", (event) => {
+        if (estTactile() && !navigationCode?.contains(event.target)) {
+            navigationCode?.classList.remove("menu-code-ouvert");
+            boutonCode?.setAttribute("aria-expanded", "false");
         }
     });
 

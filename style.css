@@ -215,8 +215,16 @@ html {
         content: "";
     }
 
-    .navigation-code:hover .menu-code-sous-sections,
-    .navigation-code:focus-within .menu-code-sous-sections {
+    @media (hover: hover) and (pointer: fine) {
+        .navigation-code:hover .menu-code-sous-sections,
+        .navigation-code:focus-within .menu-code-sous-sections {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translate(-50%, 0);
+        }
+    }
+
+    .navigation-code.menu-code-ouvert .menu-code-sous-sections {
         opacity: 1;
         pointer-events: auto;
         transform: translate(-50%, 0);
@@ -328,7 +336,7 @@ html {
     height: var(--line-height);
     border: none;
     transform-origin: center;
-    z-index: 6;
+    z-index: 4;
     filter: none;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
@@ -339,7 +347,7 @@ html {
 }
 
 .bottom-binou30.ligne-sous-flou {
-    filter: blur(var(--blur-bande));
+    filter: none;
 }
 
 @keyframes tracerLigne {
@@ -430,20 +438,12 @@ body::before {
         --mobile-logo-size: clamp(4rem, 16vw, 5.25rem);
         --mobile-logo-half-size: clamp(2rem, 8vw, 2.625rem);
         --mobile-band-height: calc(var(--mobile-logo-size) + 1rem);
-        --mobile-button-gap: clamp(0.2rem, 1vw, 0.75rem);
-        --mobile-button-width: clamp(
-            2.25rem,
-            calc((100vw - var(--mobile-logo-size) - var(--mobile-cross-size) - (5 * var(--mobile-button-gap)) - 0.5rem) / 4),
-            9rem
-        );
+        --mobile-edge: clamp(0.5rem, 2vw, 0.75rem);
+        --mobile-button-gap: var(--mobile-edge);
         --mobile-cross-size: 3rem;
-        --mobile-row-width: calc(
-            var(--mobile-button-width) + var(--mobile-button-width) + var(--mobile-logo-size) +
-            var(--mobile-button-width) + var(--mobile-button-width) + var(--mobile-cross-size) +
-            var(--mobile-button-gap) + var(--mobile-button-gap) + var(--mobile-button-gap) +
-            var(--mobile-button-gap) + var(--mobile-button-gap)
-        );
-        --mobile-row-start: calc((100vw - var(--mobile-row-width)) / 2);
+        --mobile-button-width: calc((100% - (7 * var(--mobile-edge)) - var(--mobile-logo-size) - var(--mobile-cross-size)) / 4);
+        --mobile-row-end: calc(100% - var(--mobile-edge) - var(--mobile-cross-size) - var(--mobile-button-gap));
+        --mobile-code-left: calc(var(--mobile-row-end) - (3 * var(--mobile-button-width)) - (3 * var(--mobile-button-gap)) - var(--mobile-logo-size));
     }
 
     html {
@@ -464,7 +464,7 @@ body::before {
         margin: 0;
         padding: 1rem;
         padding:
-            calc(max(1rem, env(safe-area-inset-top)) + 4rem)
+            calc(max(1rem, env(safe-area-inset-top)) + var(--mobile-band-height))
             max(1rem, env(safe-area-inset-right))
             max(1rem, env(safe-area-inset-bottom))
             max(1rem, env(safe-area-inset-left));
@@ -498,7 +498,7 @@ body::before {
         position: fixed;
         z-index: 52;
         top: calc((max(1rem, env(safe-area-inset-top)) + var(--mobile-band-height) - 2.35rem) / 2 + 2.85rem);
-        left: calc(var(--mobile-row-start) + var(--mobile-button-width) + var(--mobile-button-gap));
+        left: calc(var(--mobile-code-left) + (var(--mobile-button-width) / 2));
         display: flex;
         flex-direction: column;
         gap: 0.2rem;
@@ -510,7 +510,7 @@ body::before {
         box-shadow: 0 0.65rem 1.25rem rgba(15, 15, 30, 0.25);
         opacity: 0;
         pointer-events: none;
-        transform: translateY(-0.25rem);
+        transform: translate(-50%, -0.25rem);
         transition: opacity 0.2s ease, transform 0.2s ease;
     }
 
@@ -518,7 +518,7 @@ body::before {
         position: fixed;
         z-index: 52;
         top: calc((max(1rem, env(safe-area-inset-top)) + var(--mobile-band-height) - 2.35rem) / 2 + 2.15rem);
-        left: calc(var(--mobile-row-start) + var(--mobile-button-width) + var(--mobile-button-gap));
+        left: var(--mobile-code-left);
         width: var(--mobile-button-width);
         height: 0.7rem;
         content: "";
@@ -530,13 +530,13 @@ body::before {
     body.menu-ouvert .navigation-code.menu-code-ouvert .menu-code-sous-sections {
         opacity: 1;
         pointer-events: auto;
-        transform: translateY(0);
+        transform: translate(-50%, 0);
     }
 
     body.menu-ouvert .navigation-code.menu-code-bloque .menu-code-sous-sections {
         opacity: 0 !important;
         pointer-events: none !important;
-        transform: translateY(-0.25rem) !important;
+        transform: translate(-50%, -0.25rem) !important;
     }
 
     body.menu-ouvert .menu-code-sous-sections a {
@@ -558,7 +558,7 @@ body::before {
     }
 
     body::before {
-        height: calc(max(1rem, env(safe-area-inset-top)) + 4rem);
+        height: calc(max(1rem, env(safe-area-inset-top)) + var(--mobile-band-height));
         background: rgba(35, 36, 60, 0.2);
     }
 
@@ -618,7 +618,8 @@ body::before {
     }
 
     body.menu-ouvert .logo {
-        left: calc(var(--mobile-row-start) + var(--mobile-button-width) + var(--mobile-button-width) + var(--mobile-button-gap) + var(--mobile-button-gap) + var(--mobile-logo-half-size));
+        top: calc(max(1rem, env(safe-area-inset-top)) - 0.4rem);
+        left: calc(var(--mobile-row-end) - (2 * var(--mobile-button-width)) - (2 * var(--mobile-button-gap)) - var(--mobile-logo-half-size));
         width: var(--mobile-logo-size);
         height: var(--mobile-logo-size);
         transform: translateX(-50%);
@@ -726,8 +727,9 @@ body::before {
     .menu-burger {
         position: fixed;
         z-index: 13;
-        top: calc((max(1rem, env(safe-area-inset-top)) + 4rem - 3rem) / 2 - 0.2rem);
-        right: max(1rem, env(safe-area-inset-right));
+        top: calc((max(1rem, env(safe-area-inset-top)) + var(--mobile-band-height) - 3rem) / 2 - 0.2rem);
+        left: auto;
+        right: var(--mobile-edge);
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -800,7 +802,7 @@ body::before {
     body.menu-ouvert .navigation-principale .button-à-propos,
     body.menu-ouvert .navigation-principale .button-liens {
         position: absolute;
-        top: calc((max(1rem, env(safe-area-inset-top)) + var(--mobile-band-height) - 2.35rem) / 2 - 0.2rem);
+        top: calc((max(1rem, env(safe-area-inset-top)) + var(--mobile-band-height) - 2.75rem) / 2 - 0.2rem);
         z-index: 51;
         pointer-events: auto;
         cursor: pointer !important;
@@ -840,29 +842,21 @@ body::before {
     }
 
     body.menu-ouvert .navigation-principale .button-à-propos {
-        left: var(--mobile-row-start);
-    }
-
-    body.menu-ouvert .menu-burger {
-        top: calc((max(1rem, env(safe-area-inset-top)) + var(--mobile-band-height) - 3rem) / 2 - 0.2rem);
+        left: calc(var(--mobile-row-end) - (4 * var(--mobile-button-width)) - (4 * var(--mobile-button-gap)) - var(--mobile-logo-size));
     }
 
     body.menu-ouvert .navigation-principale .button-code {
-        left: calc(var(--mobile-row-start) + var(--mobile-button-width) + var(--mobile-button-gap));
+        left: var(--mobile-code-left);
     }
 
     body.menu-ouvert .navigation-principale .button-lego {
-        left: calc(var(--mobile-row-start) + var(--mobile-button-width) + var(--mobile-button-width) + var(--mobile-logo-size) + var(--mobile-button-gap) + var(--mobile-button-gap) + var(--mobile-button-gap));
+        left: calc(var(--mobile-row-end) - (2 * var(--mobile-button-width)) - var(--mobile-button-gap));
     }
 
     body.menu-ouvert .navigation-principale .button-liens {
-        left: calc(var(--mobile-row-start) + var(--mobile-button-width) + var(--mobile-button-width) + var(--mobile-logo-size) + var(--mobile-button-width) + var(--mobile-button-gap) + var(--mobile-button-gap) + var(--mobile-button-gap) + var(--mobile-button-gap));
+        left: calc(var(--mobile-row-end) - var(--mobile-button-width));
     }
 
-    body.menu-ouvert .menu-burger {
-        right: auto;
-        left: calc(var(--mobile-row-start) + var(--mobile-button-width) + var(--mobile-button-width) + var(--mobile-logo-size) + var(--mobile-button-width) + var(--mobile-button-width) + var(--mobile-button-gap) + var(--mobile-button-gap) + var(--mobile-button-gap) + var(--mobile-button-gap) + var(--mobile-button-gap));
-    }
 }
 
 @media (prefers-reduced-motion: reduce) {
